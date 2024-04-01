@@ -1,6 +1,6 @@
 <!-- Trungquandev -->
 <a href="#" target="_blank">
-  <img src="~/images/thaisondev.svg" width="1200" alt="Thaisondev-official" />
+  <img src="https://raw.githubusercontent.com/lethaison1999/lethaison1999/main/svg/trungquandev.svg" width="1200" alt="Thaisondev-official" />
 </a>
 
 <h2 align="center">🛠 Technologies and Tools 🛠</h2>
@@ -101,5 +101,5 @@
 <h2 align="center">📑 My Favorites Quote 📑</h2>
 <br>
 <a href="#" target="_blank">
-  <img src="~/images/thaisondev-quotes.svg" width="846" height="150" alt="Thaisondev-official" />
+  <img src="https://raw.githubusercontent.com/lethaison1999/lethaison1999/main/svg/trungquandev-quotes.svg" width="846" height="150" alt="Thaisondev-official" />
 </a>
