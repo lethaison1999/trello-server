@@ -1,31 +1,45 @@
+/* eslint-disable no-console */
 import express from 'express'
-import { mapOrder } from '~/utils/sorts.js'
+import exitHook from 'async-exit-hook'
+import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
+import { env } from '~/config/environment'
 
-const app = express()
+const START_SERVER = () => {
+  const app = express()
 
-const hostname = 'localhost'
-const port = 8017
+  app.get('/', async (req, res) => {
+    console.log(await GET_DB().listCollections().toArray())
+    res.end('<h1>Thai Son Dev!</h1><hr>')
+  })
 
-app.get('/', (req, res) => {
-  // Test Absolute import mapOrder
-  // eslint-disable-next-line no-console
-  console.log(
-    mapOrder(
-      [
-        { id: 'id-1', name: 'One' },
-        { id: 'id-2', name: 'Two' },
-        { id: 'id-3', name: 'Three' },
-        { id: 'id-4', name: 'Four' },
-        { id: 'id-5', name: 'Five' }
-      ],
-      ['id-5', 'id-4', 'id-2', 'id-3', 'id-1'],
-      'id'
+  app.listen(env.APP_PORT, env.APP_HOST, () => {
+    // eslint-disable-next-line no-console
+    console.log(
+      `3. Hello ${env.AUTHOR}, Server is running on https://${env.APP_HOST}:${env.APP_PORT}`
     )
-  )
-  res.end('<h1>Hello World!</h1><hr>')
-})
+  })
+  exitHook(() => {
+    CLOSE_DB()
+  })
+}
+//IIFE anymount async func
+;(async () => {
+  try {
+    console.log('1. Đang kết nối để cơ sở dữ liệu...')
+    await CONNECT_DB()
+    console.log('2. Kết nối tới database thành công !!!')
 
-app.listen(port, hostname, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Hello Thai Son Dev, Server is running on https://${hostname}:${port}`)
-})
+    START_SERVER()
+  } catch (error) {
+    console.log(error)
+    process.exit(0)
+  }
+})()
+// chỉ khi kết nối tới database thành công thì mới start server
+// CONNECT_DB()
+//   .then(() => console.log('Kết nối tới database thành công !!!'))
+//   .then(() => START_SERVER())
+//   .catch((error) => {
+//     console.log(error)
+//     process.exit(0)
+//   })
