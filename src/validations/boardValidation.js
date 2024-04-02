@@ -19,15 +19,11 @@ const createNew = async (req, res, next) => {
     })
   })
   try {
-    // console.log(req.body)
     await conrrectCondition.validateAsync(req.body, { abortEarly: false })
-    // next()
-    res.status(StatusCodes.CREATED).json({
-      message: 'POST from validation api create broad'
-    })
+    // validate success =>controller off midelware
+    next()
   } catch (error) {
     //UNPROCESSABLE_ENTITY : 422
-    // console.log(error)
     res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       errors: new Error(error).message
     })
