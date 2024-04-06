@@ -1,6 +1,7 @@
 import Joi from 'joi'
 import { StatusCodes } from 'http-status-codes'
 import ApiError from '~/utils/ApiError'
+import { BOARD_TYPES } from '~/utils/constants'
 
 const createNew = async (req, res, next) => {
   const conrrectCondition = Joi.object({
@@ -17,7 +18,10 @@ const createNew = async (req, res, next) => {
       'string.min': 'Description length must be at least 3 characters long',
       'string.max': 'Description length must be less than or equal to 256 characters long',
       'string.trim': 'Description must not have leading of trailing whitespace'
-    })
+    }),
+    type: Joi.string()
+      .valid(...Object.values(BOARD_TYPES))
+      .required()
   })
   try {
     await conrrectCondition.validateAsync(req.body, { abortEarly: false })
